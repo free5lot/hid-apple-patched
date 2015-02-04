@@ -52,6 +52,12 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
 		"(For people who want to keep Windows PC keyboard muscle memory. "
 		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
 
+static unsigned int swap_fn_leftctrl = 0;
+module_param(swap_fn_leftctrl, uint, 0644);
+MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the FN and left Control keys. "
+		"(For people who want to keep Windows PC keyboard muscle memory. "
+		"([0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
+
 struct apple_sc {
 	unsigned long quirks;
 	unsigned int fn_on;
@@ -164,6 +170,11 @@ static const struct apple_key_translation swapped_option_cmd_keys[] = {
 	{ }
 };
 
+static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
+	{ 84,	KEY_LEFTCTRL },
+	{ }
+};
+
 static const struct apple_key_translation *apple_find_translation(
 		const struct apple_key_translation *table, u16 from)
 {
@@ -183,9 +194,11 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 	struct apple_sc *asc = hid_get_drvdata(hid);
 	const struct apple_key_translation *trans, *table;
 
-	if (usage->code == KEY_FN) {
+	u16 fn_keycode = (swap_fn_leftctrl)? (KEY_LEFTCTRL) : (KEY_FN);
+
+	if (usage->code == fn_keycode) {
 		asc->fn_on = !!value;
-		input_event(input, usage->type, usage->code, value);
+		input_event(input, usage->type, KEY_FN, value);
 		return 1;
 	}
 
@@ -264,6 +277,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
+	if (swap_fn_leftctrl) {
+		trans = apple_find_translation(swapped_fn_leftctrl_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
 	return 0;
 }
 
@@ -327,6 +348,9 @@ static void apple_setup_input(struct input_dev *input)
 
 	for (trans = apple_iso_keyboard; trans->from; trans++)
 		set_bit(trans->to, input->keybit);
+
+	for (trans = swapped_fn_leftctrl_keys; trans->from; trans++)
+		set_bit(trans->to, input->keybit);
 }
 
 static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
@@ -335,8 +359,10 @@ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 {
 	if (usage->hid == (HID_UP_CUSTOM | 0x0003)) {
 		/* The fn key on Apple USB keyboards */
+		u16 fn_keycode = (swap_fn_leftctrl)? (KEY_LEFTCTRL) : (KEY_FN);
+
 		set_bit(EV_REP, hi->input->evbit);
-		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_FN);
+		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, fn_keycode);
 		apple_setup_input(hi->input);
 		return 1;
 	}
