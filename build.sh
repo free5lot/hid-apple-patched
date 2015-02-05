@@ -2,6 +2,7 @@
 
 LINUX_HEADER_DIR="/usr/src/linux-headers-$(uname -r)"
 
+# Check if $LINUX_HEADER_DIR exists
 if [ ! -d "$LINUX_HEADER_DIR" ]; then
 	echo "============================================="
 	echo "Error: Linux headers directory was not found."
@@ -13,13 +14,12 @@ if [ ! -d "$LINUX_HEADER_DIR" ]; then
 	exit;
 fi
 
+# Make hid-apple.ko module
 echo "============================================="
 echo "Starting kernel module make"
-# Make hid-apple.ko module
 make -C "$LINUX_HEADER_DIR" M="$(pwd)" modules
 
 # Remove generated files
-
 echo "============================================="
 echo "Removing useless generated files"
 
