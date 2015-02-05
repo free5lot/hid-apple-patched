@@ -54,9 +54,14 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
 
 static unsigned int swap_fn_leftctrl = 0;
 module_param(swap_fn_leftctrl, uint, 0644);
-MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the FN and left Control keys. "
-		"(For people who want to keep Windows PC keyboard muscle memory. "
-		"([0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
+MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
+		"(For people who want to keep PC keyboard muscle memory. "
+		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
+
+static unsigned int ejectcd_as_delete = 0;
+module_param(ejectcd_as_delete, uint, 0644);
+MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
+		"([0] = disabled, 1 = enabled)");
 
 struct apple_sc {
 	unsigned long quirks;
@@ -175,6 +180,11 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
 	{ }
 };
 
+static const struct apple_key_translation ejectcd_as_delete_keys[] = {
+	{ KEY_EJECTCD,	KEY_DELETE },
+	{ }
+};
+
 static const struct apple_key_translation *apple_find_translation(
 		const struct apple_key_translation *table, u16 from)
 {
@@ -285,6 +295,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
+	if (ejectcd_as_delete) {
+		trans = apple_find_translation(ejectcd_as_delete_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
 	return 0;
 }
 
@@ -349,8 +367,15 @@ static void apple_setup_input(struct input_dev *input)
 	for (trans = apple_iso_keyboard; trans->from; trans++)
 		set_bit(trans->to, input->keybit);
 
-	for (trans = swapped_fn_leftctrl_keys; trans->from; trans++)
-		set_bit(trans->to, input->keybit);
+	if (swap_fn_leftctrl) {
+		for (trans = swapped_fn_leftctrl_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
+
+	if (ejectcd_as_delete) {
+		for (trans = ejectcd_as_delete_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
 }
 
 static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
