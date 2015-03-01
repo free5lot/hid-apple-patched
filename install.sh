@@ -15,12 +15,12 @@ PLACE_FOR_MODULE="/lib/modules/$(uname -r)/kernel/drivers/hid"
 # Pre-checks -------------------------------------------
 # Check if place for module exists in system
 if [ ! -d "$PLACE_FOR_MODULE" ]; then
-	echo "============================================="
-	echo "Error: System place for modules was not found."
-	echo "Tested placed: $PLACE_FOR_MODULE"
+	echo "=================================================="
+	echo "Error: System directory for modules was not found."
+	echo "Directory tested: $PLACE_FOR_MODULE"
 	echo ""
-	echo "Maybe you're using unsuitable GNU/Linux distro"
-	echo "============================================="
+	echo "Maybe you're using unsuitable GNU/Linux distro?"
+	echo "=================================================="
 	exit;
 fi
 
@@ -28,7 +28,8 @@ fi
 SEARCH_MODULE_RESULT=`lsmod | grep "$MODULE_LSMOD_NAME" | wc -l`
 if [ $SEARCH_MODULE_RESULT -lt "1" ]; then
 	echo "============================================="
-	echo "Warning: The Apple hid module is not used now."
+	echo "Warning: The Apple hid module is not currently"
+	echo "being used."
 	echo "Module name: $MODULE_LSMOD_NAME"
 	echo ""
 	echo "Maybe you don't need this patched module"
@@ -42,7 +43,7 @@ if [ ! -f "$MODULE_FILENAME" ]; then
 	echo "Error: Compiled patched module was not found."
 	echo "Kernel module filename: MODULE_FILENAME"
 	echo ""
-	echo "Try to build it with the command:"
+	echo "Try to build it with this command:"
 	echo "./build"
 	echo "============================================="
 	exit;
@@ -73,7 +74,7 @@ echo "============================================="
 echo "Test run before installation in the system"
 echo ""
 echo "If you faced any problems and the keyboard doesn't work"
-echo "simply reboot the computer and all be back as it was."
+echo "simply reboot the computer and all the changes will be reverted"
 echo ""
 
 # save old options
@@ -88,7 +89,8 @@ sudo insmod "./$MODULE_FILENAME" fnmode="$prev_fnmode" iso_layout="$prev_iso_lay
 #echo "$EJECTCD_AS_DELETE" | sudo tee "/sys/module/hid_apple/parameters/ejectcd_as_delete"
 
 echo "The patched module was loaded."
-read -e -p "Does keyboard work as you expect? [Y/n]: " -i "Y" yn
+echo "Please test the keyboard (mainly the modified keys)."
+read -e -p "Does the keyboard work as expected? [Y/n]: " -i "Y" yn
     case $yn in
         [Nn]* )
         echo "No, keyboard works incorrectly."; 
@@ -99,11 +101,11 @@ read -e -p "Does keyboard work as you expect? [Y/n]: " -i "Y" yn
 
 # Install hid-apple.ko module
 echo "============================================="
-echo "Module installation into system ..."
+echo "Module installation ..."
 echo "1. Making a backup of original module as $MODULE_FILENAME.prev"
 sudo cp -v "$PLACE_FOR_MODULE/$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev"
 
-echo "2. Replacing the module $MODULE_FILENAME"
+echo "2. Replacing the old module $MODULE_FILENAME"
 sudo cp -v "$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME"
 
 echo "3. Updating initramfs"
