@@ -86,15 +86,15 @@ if [ -f "$MODULE_OPTIONS_PATH/fnmode" ]; then
 fi 
 if [ -f "$MODULE_OPTIONS_PATH/iso_layout" ]; then
 	prev_iso_layout=`cat "$MODULE_OPTIONS_PATH/iso_layout"`
-	SAVED_OPTIONS="$SAVED_OPTIONS iso_layout=\"prev_iso_layout\"" 
+	SAVED_OPTIONS="$SAVED_OPTIONS iso_layout=\"$prev_iso_layout\"" 
 fi 
 if [ -f "$MODULE_OPTIONS_PATH/swap_opt_cmd" ]; then
 	prev_swap_opt_cmd=`cat "$MODULE_OPTIONS_PATH/swap_opt_cmd"`
-	SAVED_OPTIONS="$SAVED_OPTIONS swap_opt_cmd=\"prev_swap_opt_cmd\"" 
+	SAVED_OPTIONS="$SAVED_OPTIONS swap_opt_cmd=\"$prev_swap_opt_cmd\"" 
 fi 
 
 sudo rmmod "$MODULE_LSMOD_NAME"
-sudo insmod "./$MODULE_FILENAME" "$SAVED_OPTIONS swap_fn_leftctrl=\"$SWAP_FN_LEFTCTRL\" ejectcd_as_delete=\"$EJECTCD_AS_DELETE\""
+sudo insmod "./$MODULE_FILENAME" $SAVED_OPTIONS swap_fn_leftctrl="$SWAP_FN_LEFTCTRL" ejectcd_as_delete="$EJECTCD_AS_DELETE"
 
 #echo "$SWAP_FN_LEFTCTRL"  | sudo tee "/sys/module/hid_apple/parameters/swap_fn_leftctrl"
 #echo "$EJECTCD_AS_DELETE" | sudo tee "/sys/module/hid_apple/parameters/ejectcd_as_delete"
