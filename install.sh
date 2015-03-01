@@ -134,6 +134,7 @@ if [ $SEARCH_RESULT_SWAP -gt "0" ]; then
 	echo "Warning: Option 'ejectcd_as_delete' is already set in $MODPROBE_CONFIG_PATH"
 	echo "You should change this option manually in this file"
 else
+	echo "" | sudo tee -a "$MODPROBE_CONFIG_PATH"
 	echo "options hid_apple swap_fn_leftctrl=$SWAP_FN_LEFTCTRL" | sudo tee -a "$MODPROBE_CONFIG_PATH"
 fi
 
@@ -142,6 +143,7 @@ if [ $SEARCH_RESULT_EJECTCD -gt "0" ]; then
 	echo "Warning: Option 'ejectcd_as_delete' is already set in $MODPROBE_CONFIG_PATH"
 	echo "You should change this option manually in this file"
 else
+	echo "" | sudo tee -a "$MODPROBE_CONFIG_PATH"
 	echo "options hid_apple ejectcd_as_delete=$EJECTCD_AS_DELETE" | sudo tee -a "$MODPROBE_CONFIG_PATH"
 fi
 
