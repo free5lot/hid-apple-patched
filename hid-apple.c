@@ -36,6 +36,9 @@
 
 #define APPLE_FLAG_FKEY		0x01
 
+/* The fn key on Apple keyboards */
+#define APPLE_KEY_FN		84
+
 static unsigned int fnmode = 1;
 module_param(fnmode, uint, 0644);
 MODULE_PARM_DESC(fnmode, "Mode of fn key on Apple keyboards (0 = disabled, "
@@ -52,13 +55,13 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
 		"(For people who want to keep Windows PC keyboard muscle memory. "
 		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
 
-static unsigned int swap_fn_leftctrl = 0;
+static unsigned int swap_fn_leftctrl;
 module_param(swap_fn_leftctrl, uint, 0644);
 MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
 		"(For people who want to keep PC keyboard muscle memory. "
 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
 
-static unsigned int ejectcd_as_delete = 0;
+static unsigned int ejectcd_as_delete;
 module_param(ejectcd_as_delete, uint, 0644);
 MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
 		"([0] = disabled, 1 = enabled)");
@@ -176,7 +179,7 @@ static const struct apple_key_translation swapped_option_cmd_keys[] = {
 };
 
 static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
-	{ 84,	KEY_LEFTCTRL },
+	{ APPLE_KEY_FN,	KEY_LEFTCTRL },
 	{ }
 };
 
@@ -204,7 +207,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 	struct apple_sc *asc = hid_get_drvdata(hid);
 	const struct apple_key_translation *trans, *table;
 
-	u16 fn_keycode = (swap_fn_leftctrl)? (KEY_LEFTCTRL) : (KEY_FN);
+	u16 fn_keycode = (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
 
 	if (usage->code == fn_keycode) {
 		asc->fn_on = !!value;
@@ -384,7 +387,7 @@ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 {
 	if (usage->hid == (HID_UP_CUSTOM | 0x0003)) {
 		/* The fn key on Apple USB keyboards */
-		u16 fn_keycode = (swap_fn_leftctrl)? (KEY_LEFTCTRL) : (KEY_FN);
+		u16 fn_keycode = (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
 
 		set_bit(EV_REP, hi->input->evbit);
 		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, fn_keycode);
