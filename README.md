@@ -1,6 +1,6 @@
 ## A patched hid-apple kernel module
 ----------
-_**WARNING: This project is not finished yet, so don't use it and wait a bit. The instructions of build, check, install will be posted a bit later.**_
+_**The instructions of build, check, install will be posted a bit later.**_
 
 
 ### About
