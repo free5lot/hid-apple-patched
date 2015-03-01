@@ -1,5 +1,11 @@
 #!/bin/bash
 
+###################################################
+# The author of this script  is free5lot
+# Licence is GPL 2 (or later).
+# https://github.com/free5lot/
+###################################################
+
 LINUX_HEADER_DIR="/usr/src/linux-headers-$(uname -r)"
 
 # Check if $LINUX_HEADER_DIR exists
