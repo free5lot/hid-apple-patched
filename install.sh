@@ -114,7 +114,12 @@ read -e -p "Does the keyboard work as expected? [Y/n]: " -i "Y" yn
 echo "============================================="
 echo "Module installation ..."
 echo "1. Making a backup of original module as $MODULE_FILENAME.prev"
-sudo cp -v "$PLACE_FOR_MODULE/$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev"
+if [ -f "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev" ]; then
+	echo "Skipped: a backup file already exists."
+else
+	sudo cp -v "$PLACE_FOR_MODULE/$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev"	
+fi 
+
 
 echo "2. Replacing the old module $MODULE_FILENAME"
 sudo cp -v "$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME"
