@@ -131,7 +131,7 @@ echo "4. Adding options to modprobe.d config"
 
 SEARCH_RESULT_SWAP=`cat "$MODPROBE_CONFIG_PATH" | grep "swap_fn_leftctrl" | wc -l`
 if [ $SEARCH_RESULT_SWAP -gt "0" ]; then
-	echo "Warning: Option 'ejectcd_as_delete' is already set in $MODPROBE_CONFIG_PATH"
+	echo "Warning: Option 'swap_fn_leftctrl' is already set in $MODPROBE_CONFIG_PATH"
 	echo "You should change this option manually in this file"
 else
 	echo "" | sudo tee -a "$MODPROBE_CONFIG_PATH"
