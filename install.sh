@@ -67,7 +67,7 @@ read -e -p "2. Do you want to use Eject-CD key as Delete? [y/N]: " -i "N" yn
     case $yn in
         [Yy]* ) EJECTCD_AS_DELETE=1; echo "Yes, use it";;
         [Nn]* ) EJECTCD_AS_DELETE=0; echo "No, don't";;
-        * ) 	EJECTCD_AS_DELETE=1; echo "No (default)";;
+        * ) 	EJECTCD_AS_DELETE=0; echo "No (default)";;
     esac
     
 echo ""
