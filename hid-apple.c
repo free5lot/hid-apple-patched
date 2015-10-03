@@ -36,9 +36,6 @@
 
 #define APPLE_FLAG_FKEY		0x01
 
-/* The fn key on Apple keyboards */
-#define APPLE_KEY_FN		84
-
 static unsigned int fnmode = 1;
 module_param(fnmode, uint, 0644);
 MODULE_PARM_DESC(fnmode, "Mode of fn key on Apple keyboards (0 = disabled, "
@@ -179,12 +176,12 @@ static const struct apple_key_translation swapped_option_cmd_keys[] = {
 };
 
 static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
-	{ APPLE_KEY_FN,	KEY_LEFTCTRL },
+	{ KEY_FN, KEY_LEFTCTRL },
 	{ }
 };
 
 static const struct apple_key_translation ejectcd_as_delete_keys[] = {
-	{ KEY_EJECTCD,	KEY_DELETE },
+	{ KEY_EJECTCD,  KEY_DELETE },
 	{ }
 };
 
@@ -387,10 +384,8 @@ static int apple_input_mapping(struct hid_device *hdev, struct hid_input *hi,
 {
 	if (usage->hid == (HID_UP_CUSTOM | 0x0003)) {
 		/* The fn key on Apple USB keyboards */
-		u16 fn_keycode = (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
-
 		set_bit(EV_REP, hi->input->evbit);
-		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, fn_keycode);
+		hid_map_usage_clear(hi, usage, bit, max, EV_KEY, KEY_FN);
 		apple_setup_input(hi->input);
 		return 1;
 	}
@@ -599,6 +594,12 @@ static const struct hid_device_id apple_devices[] = {
 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_ISO),
 		.driver_data = APPLE_HAS_FN | APPLE_ISO_KEYBOARD },
 	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING8_JIS),
+		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_ANSI),
+		.driver_data = APPLE_HAS_FN },
+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_ISO),
+		.driver_data = APPLE_HAS_FN | APPLE_ISO_KEYBOARD },
+	{ HID_USB_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_WELLSPRING9_JIS),
 		.driver_data = APPLE_HAS_FN | APPLE_RDESC_JIS },
 	{ HID_BLUETOOTH_DEVICE(USB_VENDOR_ID_APPLE, USB_DEVICE_ID_APPLE_ALU_WIRELESS_2009_ANSI),
 		.driver_data = APPLE_NUMLOCK_EMULATION | APPLE_HAS_FN },
