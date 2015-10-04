@@ -2,7 +2,7 @@
 ----------
 _**The instructions of build, check, install will be posted a bit later.**_
 
-__UPDATE 2015: Maybe Macbook Pro 2015 has different key code for FN key and requires one line change before applying the patch. Further investigation is required, for more information see [issue #9](https://github.com/free5lot/hid-apple-patched/issues/9).__
+__UPDATE Oct 2015: The patch was modified for kernel 4.2 and support of Macbook Pro 2015. Thanks to @Aetf!__
 
 
 ### About
