@@ -1,7 +1,7 @@
 #!/bin/bash
 
 ###################################################
-# The author of this script  is free5lot
+# The author of this script is free5lot
 # Licence is GPL 2 (or later).
 # https://github.com/free5lot/
 ###################################################
