@@ -6,7 +6,7 @@
 # https://github.com/free5lot/
 ###################################################
 
-LINUX_HEADER_DIR="/usr/src/linux-headers-$(uname -r)"
+LINUX_HEADER_DIR="${LINUX_HEADER_DIR:-/usr/src/linux-headers-$(uname -r)}"
 
 # Check if $LINUX_HEADER_DIR exists
 if [ ! -d "$LINUX_HEADER_DIR" ]; then
