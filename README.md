@@ -19,42 +19,34 @@ This patch was created because Apple keyboards on Macbook Pro and external keybo
 The swapping of Alt (Option) and Command is already possible without a patch by setting swap_opt_cmd=1 option to hid-apple kernel module in current versions of Linux kernel.
 More information is available at [Ubuntu's help website](https://help.ubuntu.com/community/AppleKeyboard#Mapping_keys_.28Insert.2C_Alt.2C_Cmd.2C_etc..29).
 
+### Installation (simple way)
+TODO
 
-### Installation
+### Installation (GNU/Linux-way with makefile)
 
 To build make sure you have the kernel development packages for your
 distribution installed.
-
 If your kernel header directory is different from the default one in
 the Makefile export the correct one:
-
 ```
 export KERNEL_HEADER_DIR=/path/to/kernel/header/dir
 ```
-
 To build:
-
 ```
 make
 ```
-
 To install:
-
 ```
 make install
 ```
-
 The install will put the module in the 'extra' sub-directory and the
 default unpatched module will take priority. To give your newly built
 module priority create a file '/etc/depmod.d/hid-apple.conf' and add
 the following line:
-
 ```
 override hid_apple * extra
 ```
-
 Then run:
-
 ```
 sudo depmod -a
 ```
