@@ -58,6 +58,11 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
 		"(For people who want to keep PC keyboard muscle memory. "
 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
 
+static unsigned int rightalt_as_rightctrl;
+module_param(rightalt_as_rightctrl, uint, 0644);
+MODULE_PARM_DESC(rightalt_as_rightctrl, "Use the right Alt key as a right Ctrl key. "
+		"[0] = as-is, Mac layout. 1 = Right Alt is right Ctrl");
+
 static unsigned int ejectcd_as_delete;
 module_param(ejectcd_as_delete, uint, 0644);
 MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
@@ -180,8 +185,13 @@ static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
 	{ }
 };
 
+static const struct apple_key_translation rightalt_as_rightctrl_keys[] = {
+	{ KEY_RIGHTALT, KEY_RIGHTCTRL },
+	{ }
+};
+
 static const struct apple_key_translation ejectcd_as_delete_keys[] = {
-	{ KEY_EJECTCD,  KEY_DELETE },
+	{ KEY_EJECTCD,	KEY_DELETE },
 	{ }
 };
 
@@ -303,6 +313,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
+	if (rightalt_as_rightctrl) {
+		trans = apple_find_translation(rightalt_as_rightctrl_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
 	return 0;
 }
 
@@ -374,6 +392,11 @@ static void apple_setup_input(struct input_dev *input)
 
 	if (ejectcd_as_delete) {
 		for (trans = ejectcd_as_delete_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
+
+        if (rightalt_as_rightctrl) {
+		for (trans = rightalt_as_rightctrl_keys; trans->from; trans++)
 			set_bit(trans->to, input->keybit);
 	}
 }
