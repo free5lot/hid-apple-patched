@@ -29,7 +29,7 @@ distribution installed.
 If your kernel header directory is different from the default one in
 the Makefile export the correct one:
 ```
-export KERNEL_HEADER_DIR=/path/to/kernel/header/dir
+export LINUX_HEADER_DIR=/path/to/kernel/header/dir
 ```
 To build:
 ```
