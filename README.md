@@ -20,7 +20,14 @@ The swapping of Alt (Option) and Command is already possible without a patch by 
 More information is available at [Ubuntu's help website](https://help.ubuntu.com/community/AppleKeyboard#Mapping_keys_.28Insert.2C_Alt.2C_Cmd.2C_etc..29).
 
 ### Installation (simple way)
-TODO
+Build and install via scripts provided:
+```
+./build.sh
+
+./install.sh
+```
+
+TODO: write more details
 
 ### Installation (GNU/Linux-way with makefile)
 
