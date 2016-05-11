@@ -50,6 +50,10 @@ Then run:
 ```
 sudo depmod -a
 ```
+And update of initramfs maybe required:
+```
+sudo update-initramfs -u
+```
 
 ### Topicality
 A lot of GNU/Linux users of Macbook Pro and/or external (wireless) keyboards face the problem of uncomfortable placement of keys.
