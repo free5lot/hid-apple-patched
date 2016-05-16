@@ -1,8 +1,7 @@
 ## A patched hid-apple kernel module
 ----------
-_**The instructions of build, check, install will be posted a bit later.**_
-
 __UPDATE Oct 2015: The patch was modified for kernel 4.2 and support of Macbook Pro 2015. Thanks to @Aetf!__
+__UPDATE May 2016: DKMS support added (tested on Ubuntu 16.04). Thanks to @almson!__
 
 
 ### About
@@ -19,6 +18,17 @@ This patch was created because Apple keyboards on Macbook Pro and external keybo
 The swapping of Alt (Option) and Command is already possible without a patch by setting swap_opt_cmd=1 option to hid-apple kernel module in current versions of Linux kernel.
 More information is available at [Ubuntu's help website](https://help.ubuntu.com/community/AppleKeyboard#Mapping_keys_.28Insert.2C_Alt.2C_Cmd.2C_etc..29).
 
+
+### Installation (via [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support))
+Go to the source code directory.
+```
+sudo dkms add .
+sudo dkms build hid-apple/1.0
+sudo dkms install hid-apple/1.0
+```
+Reported to be tested on Ubuntu 16.04 and work great through many kernel updates
+
+
 ### Installation (simple way)
 Build and install via scripts provided:
 ```
@@ -27,7 +37,6 @@ Build and install via scripts provided:
 ./install.sh
 ```
 
-TODO: write more details
 
 ### Installation (GNU/Linux-way with makefile)
 
@@ -61,6 +70,7 @@ And update of initramfs maybe required:
 ```
 sudo update-initramfs -u
 ```
+
 
 ### Topicality
 A lot of GNU/Linux users of Macbook Pro and/or external (wireless) keyboards face the problem of uncomfortable placement of keys.
