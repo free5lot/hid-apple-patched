@@ -26,7 +26,7 @@ sudo dkms add .
 sudo dkms build hid-apple/1.0
 sudo dkms install hid-apple/1.0
 ```
-Reported to be tested on Ubuntu 16.04 and work great through many kernel updates
+Reported to be tested on Ubuntu 16.04 and to work great through many kernel updates
 
 
 ### Installation (simple way)
@@ -36,7 +36,8 @@ Build and install via scripts provided:
 
 ./install.sh
 ```
-
+Reported to stop working on Ubuntu 16.04 because the module is not signed (issue #23).
+In this case installation via DKMS is recommended.
 
 ### Installation (GNU/Linux-way with makefile)
 
