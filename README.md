@@ -26,6 +26,7 @@ sudo dkms add .
 sudo dkms build hid-apple/1.0
 sudo dkms install hid-apple/1.0
 ```
+Then add desired options to modprobe options file (/etc/modprobe.d/hid_apple.conf), like swap_fn_leftctrl=1 and others.
 Reported to be tested on Ubuntu 16.04 and to work great through many kernel updates
 
 
