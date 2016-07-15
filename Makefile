@@ -1,4 +1,4 @@
-LINUX_HEADER_DIR ?=/usr/src/linux-headers-$(uname -r)
+LINUX_HEADER_DIR ?= /usr/src/linux-headers-$(shell uname -r)
 
 obj-$(CONFIG_HID_APPLE)		+= hid-apple.o
 
