@@ -31,19 +31,24 @@ sudo dkms install hid-apple/1.0
 ```
 Then, create file `/etc/modprobe.d/hid_apple.conf`. The following configuration emulates a standard PC layout:
 ```
-fnmode=2
-swap_fn_leftctrl=1
-swap_opt_cmd=1
-rightalt_as_rightctrl=1
-ejectcd_as_delete=1
+options hid_apple fnmode=2
+options hid_apple swap_fn_leftctrl=1
+options hid_apple swap_opt_cmd=1
+options hid_apple rightalt_as_rightctrl=1
+options hid_apple ejectcd_as_delete=1
+```
+Finally, apply the new config file and reboot
+```
+sudo update-initramfs -u
+sudo reboot
 ```
 The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. (This method has been tested on Ubuntu 14.04 and 16.04. On Ubuntu 14.04, you will need to first `sudo apt install dkms`.)
 
 
 ### Configuration
 
-Permanent configuration is done in file `/etc/modprobe.d/hid_apple.conf`. The format is one option-value pair per line, like `swap_fn_leftctrl=1`. After writing to the file, reboot.
-Temporary configuration (without rebooting) is possible by writing to virtual files in `/sys/module/hid_apple/parameters/`, like `echo 1 | sudo tee /sys/module/hid_apple/parameters/swap_fn_leftctrl`
+Permanent configuration is done in file `/etc/modprobe.d/hid_apple.conf`. The format is one option-value pair per line, like `swap_fn_leftctrl=1`. After writing to the file, do `sudo update-initramfs -u` and reboot.
+Temporary configuration (applies immediately but is lost after rebooting) is possible by writing to virtual files in `/sys/module/hid_apple/parameters/`, like `echo 1 | sudo tee /sys/module/hid_apple/parameters/swap_fn_leftctrl`.
 
 - `fnmode` - Mode of top-row keys. (`0` = disabled, `1` = normally media keys, switchable to function keys by holding Fn key, `2` = normally function keys, switchable to media keys by holding Fn key. Default: `1`)
 - `swap_fn_leftctrl` - Swap the Fn and left Control keys. (`0` = as silkscreened, Mac layout, `1` = swapped, PC layout. Default: `0`)
