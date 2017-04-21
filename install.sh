@@ -6,6 +6,16 @@
 # https://github.com/free5lot/
 ###################################################
 
+# If Fedora, simply 'make modules_install' and exit.
+# Parameter support to be added.
+if [ -f /etc/fedora-release ] ; then
+	echo "Installing module on Fedora"
+	echo "Parameters not supported."
+	sudo make -C /lib/modules/$(uname -r)/build M=$(pwd) modules_install
+	exit 0;
+fi
+
+# Ubuntu from here
 # Constants
 MODULE_FILENAME="hid-apple.ko"
 MODULE_LSMOD_NAME="hid_apple"
@@ -69,7 +79,7 @@ read -e -p "2. Do you want to use Eject-CD key as Delete? [y/N]: " -i "N" yn
         [Nn]* ) EJECTCD_AS_DELETE=0; echo "No, don't";;
         * ) 	EJECTCD_AS_DELETE=0; echo "No (default)";;
     esac
-    
+
 echo ""
 echo "============================================="
 echo "Test run before installation in the system"
@@ -82,16 +92,16 @@ echo ""
 SAVED_OPTIONS=""
 if [ -f "$MODULE_OPTIONS_PATH/fnmode" ]; then
 	prev_fnmode=`cat "$MODULE_OPTIONS_PATH/fnmode"`
-	SAVED_OPTIONS="$SAVED_OPTIONS fnmode=\"$prev_fnmode\"" 
-fi 
+	SAVED_OPTIONS="$SAVED_OPTIONS fnmode=\"$prev_fnmode\""
+fi
 if [ -f "$MODULE_OPTIONS_PATH/iso_layout" ]; then
 	prev_iso_layout=`cat "$MODULE_OPTIONS_PATH/iso_layout"`
-	SAVED_OPTIONS="$SAVED_OPTIONS iso_layout=\"$prev_iso_layout\"" 
-fi 
+	SAVED_OPTIONS="$SAVED_OPTIONS iso_layout=\"$prev_iso_layout\""
+fi
 if [ -f "$MODULE_OPTIONS_PATH/swap_opt_cmd" ]; then
 	prev_swap_opt_cmd=`cat "$MODULE_OPTIONS_PATH/swap_opt_cmd"`
-	SAVED_OPTIONS="$SAVED_OPTIONS swap_opt_cmd=\"$prev_swap_opt_cmd\"" 
-fi 
+	SAVED_OPTIONS="$SAVED_OPTIONS swap_opt_cmd=\"$prev_swap_opt_cmd\""
+fi
 
 sudo rmmod "$MODULE_LSMOD_NAME"
 sudo insmod "./$MODULE_FILENAME" $SAVED_OPTIONS swap_fn_leftctrl="$SWAP_FN_LEFTCTRL" ejectcd_as_delete="$EJECTCD_AS_DELETE"
@@ -104,7 +114,7 @@ echo "Please test the keyboard (mainly the modified keys)."
 read -e -p "Does the keyboard work as expected? [Y/n]: " -i "Y" yn
     case $yn in
         [Nn]* )
-        echo "No, keyboard works incorrectly."; 
+        echo "No, keyboard works incorrectly.";
         echo "=> The installation was canceled by user.";
         echo "=> If you have any keyboard problems simply reboot the computer.";
         exit;;
@@ -117,8 +127,8 @@ echo "1. Making a backup of original module as $MODULE_FILENAME.prev"
 if [ -f "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev" ]; then
 	echo "Skipped: a backup file already exists."
 else
-	sudo cp -v "$PLACE_FOR_MODULE/$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev"	
-fi 
+	sudo cp -v "$PLACE_FOR_MODULE/$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME.prev"
+fi
 
 
 echo "2. Replacing the old module $MODULE_FILENAME"
@@ -126,6 +136,7 @@ sudo cp -v "$MODULE_FILENAME" "$PLACE_FOR_MODULE/$MODULE_FILENAME"
 
 echo "3. Updating initramfs"
 sudo update-initramfs -u
+
 
 echo "4. Adding options to modprobe.d config"
 
