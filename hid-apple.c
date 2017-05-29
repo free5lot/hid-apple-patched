@@ -289,6 +289,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
+	if (rightalt_as_rightctrl) {
+		trans = apple_find_translation(rightalt_as_rightctrl_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
 	if (swap_opt_cmd) {
 		trans = apple_find_translation(swapped_option_cmd_keys, usage->code);
 		if (trans) {
@@ -307,14 +315,6 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 
 	if (ejectcd_as_delete) {
 		trans = apple_find_translation(ejectcd_as_delete_keys, usage->code);
-		if (trans) {
-			input_event(input, usage->type, trans->to, value);
-			return 1;
-		}
-	}
-
-	if (rightalt_as_rightctrl) {
-		trans = apple_find_translation(rightalt_as_rightctrl_keys, usage->code);
 		if (trans) {
 			input_event(input, usage->type, trans->to, value);
 			return 1;
