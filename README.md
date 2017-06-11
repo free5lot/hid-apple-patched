@@ -81,24 +81,26 @@ This process needs to be repeated after installing a new kernel, after having bo
 
 ### Alternative, makefile-based installation
 
-To build make sure you have the kernel development packages for your
-distribution installed. E.g. Ubuntu they are packages `linux-headers-*`, where "*" indicates the version and variant of the kernel.
+0. To build make sure you have the kernel development packages for your
+distribution installed. For example in Ubuntu these packages are called `linux-headers-*`, where "*" indicates the version and variant of the kernel.
 
-By default the kernel header directory set in the Makefile is:
-`/usr/src/linux-headers-$(shell uname -r)` that detects and uses the version of running kernel. It works in Ubuntu and a lot of other GNU/Linux distributions but if in your distribution the kernel header directory is different from the default one in
+1. The default kernel header directory in the Makefile is:
+`/usr/src/linux-headers-$(shell uname -r)`, it automatically detects and uses the version of running kernel. 
+It works in Ubuntu and a lot of other GNU/Linux distributions, just skip this step if you use them.
+But if in your distribution the kernel header directory is different from the default one in
 the Makefile export the correct one:
 ```
 export LINUX_HEADER_DIR=/path/to/kernel/header/dir
 ```
-To build:
+2. To build:
 ```
 make
 ```
-To install:
+3. To install:
 ```
 make install
 ```
-The install will put the module in the 'extra' sub-directory and the
+4. The install will put the module in the 'extra' sub-directory and the
 default unpatched module will take priority. To give your newly built
 module priority create a file '/etc/depmod.d/hid-apple.conf' and add
 the following line:
@@ -109,7 +111,7 @@ Then run:
 ```
 sudo depmod -a
 ```
-And update of initramfs maybe required:
+5. And update of initramfs maybe required:
 ```
 sudo update-initramfs -u
 ```
