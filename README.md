@@ -82,8 +82,10 @@ This process needs to be repeated after installing a new kernel, after having bo
 ### Alternative, makefile-based installation
 
 To build make sure you have the kernel development packages for your
-distribution installed.
-If your kernel header directory is different from the default one in
+distribution installed. E.g. Ubuntu they are packages `linux-headers-*`, where "*" indicates the version and variant of the kernel.
+
+By default the kernel header directory set in the Makefile is:
+`/usr/src/linux-headers-$(shell uname -r)` that detects and uses the version of running kernel. It works in Ubuntu and a lot of other GNU/Linux distributions but if in your distribution the kernel header directory is different from the default one in
 the Makefile export the correct one:
 ```
 export LINUX_HEADER_DIR=/path/to/kernel/header/dir
