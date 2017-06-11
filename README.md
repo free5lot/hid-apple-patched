@@ -9,7 +9,7 @@ __UPDATE Oct 2015: The patch was modified for kernel 4.2 and support of Macbook 
 
 ### About
 
-A patched version of hid-apple allows GNU/Linux user **to swap the FN and left Control keys** on Macbook Pro, external Apple keyboards and probably other Apple devices.
+A patched version of hid-apple allows GNU/Linux user **to swap the FN and left Control keys and some other mapping tweaks** on Macbook Pro, external Apple keyboards and probably other Apple devices.
 
 The patch was created by [free5lot](https://github.com/free5lot) under GPL 2 (or later) licence. I hope it'll go to upstream kernel, so more GNU/Linux users could make their keyboards more comfortable for them.
 
