@@ -56,7 +56,7 @@ Temporary configuration (applies immediately but is lost after rebooting) is pos
 - `fnmode` - Mode of top-row keys. (`0` = disabled, `1` = normally media keys, switchable to function keys by holding Fn key, `2` = normally function keys, switchable to media keys by holding Fn key. Default: `1`)
 - `swap_fn_leftctrl` - Swap the Fn and left Control keys. (`0` = as silkscreened, Mac layout, `1` = swapped, PC layout. Default: `0`)
 - `swap_opt_cmd` - Swap the Option (\"Alt\") and Command (\"Flag\") keys. (`0` = as silkscreened, Mac layout. `1` = swapped, PC layout. Default: `0`)
-- `rightalt_as_rightctrl` - *Note: currently not working due to [issue 19](https://github.com/free5lot/hid-apple-patched/issues/19).* Use the right Alt key as a right Ctrl key. (`0` = as silkscreened, Mac layout. `1` = swapped, PC layout. Default: `0`)
+- `rightalt_as_rightctrl` - Use the right Alt key as a right Ctrl key. (`0` = as silkscreened, Mac layout. `1` = swapped, PC layout. Default: `0`)
 - `ejectcd_as_delete` - Use Eject-CD key as Delete key, if available. (`0` = disabled, `1` = enabled. Default: `0`)
 - `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts. (`0` = disabled, `1` = enabled. Default: `1`)
 
