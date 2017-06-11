@@ -53,12 +53,25 @@ The advantage of DKMS is that the module is automatically re-built after every k
 Permanent configuration is done in file `/etc/modprobe.d/hid_apple.conf`. The format is one option-value pair per line, like `swap_fn_leftctrl=1`. After writing to the file, do `sudo update-initramfs -u` and reboot.
 Temporary configuration (applies immediately but is lost after rebooting) is possible by writing to virtual files in `/sys/module/hid_apple/parameters/`, like `echo 1 | sudo tee /sys/module/hid_apple/parameters/swap_fn_leftctrl`.
 
-- `fnmode` - Mode of top-row keys. (`0` = disabled, `1` = normally media keys, switchable to function keys by holding Fn key, `2` = normally function keys, switchable to media keys by holding Fn key. Default: `1`)
-- `swap_fn_leftctrl` - Swap the Fn and left Control keys. (`0` = as silkscreened, Mac layout, `1` = swapped, PC layout. Default: `0`)
-- `swap_opt_cmd` - Swap the Option (\"Alt\") and Command (\"Flag\") keys. (`0` = as silkscreened, Mac layout. `1` = swapped, PC layout. Default: `0`)
-- `rightalt_as_rightctrl` - Use the right Alt key as a right Ctrl key. (`0` = as silkscreened, Mac layout. `1` = swapped, PC layout. Default: `0`)
-- `ejectcd_as_delete` - Use Eject-CD key as Delete key, if available. (`0` = disabled, `1` = enabled. Default: `0`)
-- `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts. (`0` = disabled, `1` = enabled. Default: `1`)
+- `fnmode` - Mode of top-row keys
+  - `0` = disabled
+  - `1` = normally media keys, switchable to function keys by holding Fn key (Default)
+  - `2` = normally function keys, switchable to media keys by holding Fn key
+- `swap_fn_leftctrl` - Swap the Fn and left Control keys
+  - `0` = as silkscreened, Mac layout (Default)
+  - `1` = swapped, PC layout
+- `swap_opt_cmd` - Swap the Option (\"Alt\") and Command (\"Flag\") keys
+  - `0` = as silkscreened, Mac layout (Default)
+  - `1` = swapped, PC layout
+- `rightalt_as_rightctrl` - Use the right Alt key as a right Ctrl key
+  - `0` = as silkscreened, Mac layout (Default)
+  - `1` = swapped, PC layout
+- `ejectcd_as_delete` - Use Eject-CD key as Delete key, if available
+  - `0` = disabled (Default)
+  - `1` = enabled
+- `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts
+  - `0` = disabled, 
+  - `1` = enabled (Default)
 
 
 ### Warning regarding Secure Boot (on non-Apple computers)
