@@ -145,4 +145,4 @@ So this patch is probably essential and desirable by users.
 ### Links and mentions
 - [Official documentation of **Ubuntu** - AppleKeyboard - Mapping keys](https://help.ubuntu.com/community/AppleKeyboard#Mapping_keys_.28Insert.2C_Alt.2C_Cmd.2C_etc..29) (added by @Aetf).
 - [**ArchWiki** (documentation wiki of **Arch Linux**) - Apple Keyboard - Swap the Fn key and Left Ctrl key](https://wiki.archlinux.org/index.php/Apple_Keyboard#Swap_the_Fn_key_and_Left_Ctrl_key) (added by @Aetf)).
-
+- [Official documentation of **openSUSE** - Installation on a Mac](https://en.opensuse.org/SDB:Installation_on_a_Mac#Other_things (added by Cornertwist)
