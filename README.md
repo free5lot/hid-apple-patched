@@ -24,7 +24,7 @@ The swapping of Alt (Option) and Command is already possible without a patch by 
 More information is available at [Ubuntu's help website](https://help.ubuntu.com/community/AppleKeyboard#Mapping_keys_.28Insert.2C_Alt.2C_Cmd.2C_etc..29).
 
 
-### Installation (via [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support))
+### Installation via [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) (recommended)
 
 Go to the source code directory.
 ```
@@ -40,12 +40,17 @@ options hid_apple swap_opt_cmd=1
 options hid_apple rightalt_as_rightctrl=1
 options hid_apple ejectcd_as_delete=1
 ```
-Finally, apply the new config file and reboot
+Finally, apply the new config file:
 ```
 sudo update-initramfs -u
-sudo reboot
 ```
-The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. (This method has been tested on Ubuntu 14.04 and 16.04. On Ubuntu 14.04, you will need to first `sudo apt install dkms`.)
+To (re-)load the module for immediate use, run
+```
+sudo modprobe -r hid_apple; sudo modprobe hid_apple
+```
+in one go (since the first command will disable your Apple keyboard). Alternatively, run `sudo reboot`, and the new module should be loaded on reboot.
+
+The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. (This method has been tested on Ubuntu 14.04 and 16.04. You may need to get dkms first: `sudo apt install dkms`.)
 
 
 ### Configuration
