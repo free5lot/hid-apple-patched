@@ -26,6 +26,8 @@ More information is available at [Ubuntu's help website](https://help.ubuntu.com
 
 ### Installation via [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) (recommended)
 
+You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
+
 Go to the source code directory.
 ```
 sudo dkms add .
@@ -50,7 +52,7 @@ sudo modprobe -r hid_apple; sudo modprobe hid_apple
 ```
 in one go (since the first command will disable your Apple keyboard). Alternatively, run `sudo reboot`, and the new module should be loaded on reboot.
 
-The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. (This method has been tested on Ubuntu 14.04 and 16.04. You may need to get dkms first: `sudo apt install dkms`.)
+The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. This method has been tested at least on Ubuntu 14.04 and 16.04.
 
 
 ### Configuration
