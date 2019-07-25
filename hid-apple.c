@@ -68,6 +68,11 @@ module_param(ejectcd_as_delete, uint, 0644);
 MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
 		"([0] = disabled, 1 = enabled)");
 
+static unsigned int fn_hjkl_as_arrows;
+module_param(fn_hjkl_as_arrows, uint, 0644);
+MODULE_PARM_DESC(fn_hjkl_as_arrows, "Use fn-hjkl as arrow keys. "
+		"([0] = disabled, 1 = enabled)");
+
 struct apple_sc {
 	unsigned long quirks;
 	unsigned int fn_on;
@@ -192,6 +197,14 @@ static const struct apple_key_translation rightalt_as_rightctrl_keys[] = {
 
 static const struct apple_key_translation ejectcd_as_delete_keys[] = {
 	{ KEY_EJECTCD,	KEY_DELETE },
+	{ }
+};
+
+static const struct apple_key_translation fn_hjkl_as_arrows_keys[] = {
+        { KEY_H,        KEY_LEFT },
+        { KEY_J,        KEY_DOWN },
+        { KEY_K,        KEY_UP },
+        { KEY_L,        KEY_RIGHT },
 	{ }
 };
 
@@ -321,6 +334,27 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
+	if (fn_hjkl_as_arrows) {
+                int do_translate;
+
+		trans = apple_find_translation(fn_hjkl_as_arrows_keys, usage->code);
+		if (trans) {
+                        do_translate = asc->fn_on;
+
+			if (do_translate) {
+				if (value)
+					set_bit(usage->code, asc->pressed_fn);
+				else
+					clear_bit(usage->code, asc->pressed_fn);
+
+				input_event(input, usage->type, trans->to,
+						value);
+
+				return 1;
+			}
+		}
+	}
+
 	return 0;
 }
 
@@ -392,6 +426,11 @@ static void apple_setup_input(struct input_dev *input)
 
 	if (ejectcd_as_delete) {
 		for (trans = ejectcd_as_delete_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
+
+	if (fn_hjkl_as_arrows) {
+		for (trans = fn_hjkl_as_arrows_keys; trans->from; trans++)
 			set_bit(trans->to, input->keybit);
 	}
 
