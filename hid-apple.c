@@ -52,6 +52,19 @@ MODULE_PARM_DESC(swap_opt_cmd, "Swap the Option (\"Alt\") and Command (\"Flag\")
 		"(For people who want to keep Windows PC keyboard muscle memory. "
 		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
 
+static unsigned int swap_f13_14_15_to_sysrq_scrlock_pause;
+module_param(swap_f13_14_15_to_sysrq_scrlock_pause, uint, 0644);
+MODULE_PARM_DESC(swap_f13_14_15_to_sysrq_scrlock_pause,
+		"Swap the F13,F14,F15 to SYSRQ,SCROLLLOCK,PAUSE keys. "
+		"(For people who want to keep Windows PC keyboard muscle memory. "
+		"[0] = as-is, Mac layout. 1 = swapped, Windows layout.)");
+
+static unsigned int swap_fn_f19_and_insert_fn;
+module_param(swap_fn_f19_and_insert_fn, uint, 0644);
+MODULE_PARM_DESC(swap_fn_f19_and_insert_fn, "Swap Fn to F19 and Insert to Fn keys. "
+		"(For people who want to keep PC keyboard muscle memory. "
+		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
+
 static unsigned int swap_fn_leftctrl;
 module_param(swap_fn_leftctrl, uint, 0644);
 MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
@@ -180,6 +193,18 @@ static const struct apple_key_translation swapped_option_cmd_keys[] = {
 	{ }
 };
 
+static const struct apple_key_translation swapped_f13_function_keys[] = {
+	{ KEY_F13,	KEY_SYSRQ },
+	{ KEY_F14,	KEY_SCROLLLOCK },
+	{ KEY_F15,	KEY_PAUSE },
+	{ }
+};
+
+static const struct apple_key_translation swapped_fn_insert_keys[] = {
+	{ KEY_FN,	KEY_INSERT },
+	{ }
+};
+
 static const struct apple_key_translation swapped_fn_leftctrl_keys[] = {
 	{ KEY_FN, KEY_LEFTCTRL },
 	{ }
@@ -214,7 +239,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 	struct apple_sc *asc = hid_get_drvdata(hid);
 	const struct apple_key_translation *trans, *table;
 
-	u16 fn_keycode = (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
+	u16 fn_keycode;
+	if (swap_fn_leftctrl) {
+	    fn_keycode = KEY_LEFTCTRL;
+	} else if (swap_fn_f19_and_insert_fn) {
+	    fn_keycode = KEY_F19;
+	} else {
+	    fn_keycode = KEY_FN;
+	}
 
 	if (usage->code == fn_keycode) {
 		asc->fn_on = !!value;
@@ -289,16 +321,24 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
-	if (rightalt_as_rightctrl) {
-		trans = apple_find_translation(rightalt_as_rightctrl_keys, usage->code);
+	if (swap_opt_cmd) {
+		trans = apple_find_translation(swapped_option_cmd_keys, usage->code);
 		if (trans) {
 			input_event(input, usage->type, trans->to, value);
 			return 1;
 		}
 	}
 
-	if (swap_opt_cmd) {
-		trans = apple_find_translation(swapped_option_cmd_keys, usage->code);
+	if (swap_fn_f19_and_insert_fn) {
+		trans = apple_find_translation(swapped_fn_insert_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
+	if (swap_f13_14_15_to_sysrq_scrlock_pause) {
+		trans = apple_find_translation(swapped_f13_function_keys, usage->code);
 		if (trans) {
 			input_event(input, usage->type, trans->to, value);
 			return 1;
@@ -315,6 +355,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 
 	if (ejectcd_as_delete) {
 		trans = apple_find_translation(ejectcd_as_delete_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
+	if (rightalt_as_rightctrl) {
+		trans = apple_find_translation(rightalt_as_rightctrl_keys, usage->code);
 		if (trans) {
 			input_event(input, usage->type, trans->to, value);
 			return 1;
@@ -384,6 +432,16 @@ static void apple_setup_input(struct input_dev *input)
 
 	for (trans = apple_iso_keyboard; trans->from; trans++)
 		set_bit(trans->to, input->keybit);
+
+	if (swap_fn_f19_and_insert_fn) {
+		for (trans = swapped_fn_insert_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
+
+	if (swap_f13_14_15_to_sysrq_scrlock_pause) {
+		for (trans = swapped_f13_function_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
 
 	if (swap_fn_leftctrl) {
 		for (trans = swapped_fn_leftctrl_keys; trans->from; trans++)
