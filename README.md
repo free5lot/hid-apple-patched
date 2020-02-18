@@ -1,6 +1,6 @@
 ## A patched hid-apple kernel module
 ----------
-__UPDATE Dec 2019: If one has issues building for Feroda, please take a look at [this information](https://github.com/free5lot/hid-apple-patched/issues/55)__
+__UPDATE Dec 2019: If one has issues building for Fedora, please take a look at [this information](https://github.com/free5lot/hid-apple-patched/issues/55)__
 
 __UPDATE Apr 2017: Works on Arch too, for useful information on this [proceed here](https://github.com/free5lot/hid-apple-patched/issues/31)__
 
