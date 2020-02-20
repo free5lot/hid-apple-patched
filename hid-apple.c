@@ -68,6 +68,11 @@ module_param(ejectcd_as_delete, uint, 0644);
 MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
 		"([0] = disabled, 1 = enabled)");
 
+static unsigned int fnesc_toggle = 1;
+module_param(fnesc_toggle, uint, 0644);
+MODULE_PARM_DESC(fnesc_toggle, "Use fn+esc to toggle fnmode between 1 and 2 (fnmode must be > 0). "
+		"(0 = disabled, [1] = enabled)");
+
 struct apple_sc {
 	unsigned long quirks;
 	unsigned int fn_on;
@@ -223,6 +228,11 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 	}
 
 	if (fnmode) {
+		if (fnesc_toggle && asc->fn_on && usage->code == KEY_ESC) {
+			fnmode = (fnmode == 1) ? 2 : 1;
+			return 1;
+		}
+
 		int do_translate;
 
 		if (hid->product >= USB_DEVICE_ID_APPLE_WELLSPRING4_ANSI &&

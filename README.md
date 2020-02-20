@@ -81,6 +81,9 @@ Temporary configuration (applies immediately but is lost after rebooting) is pos
 - `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts
   - `0` = disabled, 
   - `1` = enabled (Default)
+- `fnesc_toggle` - Use Fn + Esc together to toggle the `fnmode` between `1` and `2`. Requires `fnmode` to be non zero.
+  - `0` = disabled,
+  - `1` = enabled (Default)
 
 
 ### Warning regarding Secure Boot (on non-Apple computers)
