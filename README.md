@@ -8,6 +8,8 @@ __UPDATE Apr 2017: Works on Arch too, for useful information on this [proceed he
 
 __UPDATE May 2016: DKMS support added (tested on Ubuntu 16.04). Thanks to @almson!__
 
+__UPDATE Dec 2015: An option to use the right Alt key as right ctrl was added. Thanks to @sami-mw!__
+
 __UPDATE Oct 2015: The patch was modified for kernel 4.2 and support of Macbook Pro 2015. Thanks to @Aetf!__
 
 
