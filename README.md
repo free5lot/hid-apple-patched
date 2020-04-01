@@ -1,6 +1,6 @@
 ## A patched hid-apple kernel module
 ----------
-__UPDATE Mar 2020: Now patched version is compatiblee with Apple Magic Keyboard 2 in both USB and Bluetooth modes (and MacBooks of course). Thanks to @almson for syncing with upstream!__
+__UPDATE Mar 2020: Now it works with Apple Magic Keyboard 2 in both USB and Bluetooth modes. Thanks to @almson!__
 
 __UPDATE Dec 2019: If one has issues building for Fedora, please take a look at [this information](https://github.com/free5lot/hid-apple-patched/issues/55)__
 
