@@ -60,6 +60,11 @@ in one go (since the first command will disable your Apple keyboard). Alternativ
 
 The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. This method has been tested at least on Ubuntu 14.04 and 16.04.
 
+### Installation on Arch Linux
+
+An AUR package [hid-apple-patched-git-dkms](https://aur.archlinux.org/packages/hid-apple-patched-git-dkms/) is available to automate the above installation steps.
+
+See the [ArchWiki](https://wiki.archlinux.org/index.php/Apple_Keyboard#Use_a_patch_to_hid-apple) for install and configuration instructions specific to Arch Linux.
 
 ### Configuration
 
