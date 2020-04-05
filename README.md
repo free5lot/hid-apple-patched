@@ -35,13 +35,13 @@ More information is available at [Ubuntu's help website](https://help.ubuntu.com
 You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
 
 Go to the source code directory.
-```
+```bash
 sudo dkms add .
 sudo dkms build hid-apple/1.0
 sudo dkms install hid-apple/1.0
 ```
 Then, create file `/etc/modprobe.d/hid_apple.conf`. The following configuration emulates a standard PC layout:
-```
+```nginxconf
 options hid_apple fnmode=2
 options hid_apple swap_fn_leftctrl=1
 options hid_apple swap_opt_cmd=1
@@ -49,11 +49,11 @@ options hid_apple rightalt_as_rightctrl=1
 options hid_apple ejectcd_as_delete=1
 ```
 Finally, apply the new config file:
-```
+```bash
 sudo update-initramfs -u
 ```
 To (re-)load the module for immediate use, run
-```
+```bash
 sudo modprobe -r hid_apple; sudo modprobe hid_apple
 ```
 in one go (since the first command will disable your Apple keyboard). Alternatively, run `sudo reboot`, and the new module should be loaded on reboot.
@@ -100,7 +100,7 @@ Some distributions, including Ubuntu 16.04, require that all modules are signed 
 ### Alternative, script-based installation
 
 Build and install via scripts provided:
-```
+```bash
 ./build.sh
 
 ./install.sh
@@ -120,30 +120,30 @@ distribution installed. For example in Ubuntu these packages are called `linux-h
 It works in Ubuntu and a lot of other GNU/Linux distributions, just skip this step if you use them.
 But if in your distribution the kernel header directory is different from the default one in
 the Makefile export the correct one:
-```
+```bash
 export LINUX_HEADER_DIR=/path/to/kernel/header/dir
 ```
 2. To build:
-```
+```bash
 make
 ```
 3. To install:
-```
+```bash
 make install
 ```
 4. The install will put the module in the 'extra' sub-directory and the
 default unpatched module will take priority. To give your newly built
 module priority create a file '/etc/depmod.d/hid-apple.conf' and add
 the following line:
-```
+```nginxconf
 override hid_apple * extra
 ```
 Then run:
-```
+```bash
 sudo depmod -a
 ```
 5. And update of initramfs maybe required:
-```
+```bash
 sudo update-initramfs -u
 ```
 
