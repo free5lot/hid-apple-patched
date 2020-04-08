@@ -41,7 +41,7 @@ sudo dkms build hid-apple/1.0
 sudo dkms install hid-apple/1.0
 ```
 Then, create file `/etc/modprobe.d/hid_apple.conf`. The following configuration emulates a standard PC layout:
-```nginxconf
+```
 options hid_apple fnmode=2
 options hid_apple swap_fn_leftctrl=1
 options hid_apple swap_opt_cmd=1
@@ -135,7 +135,7 @@ make install
 default unpatched module will take priority. To give your newly built
 module priority create a file '/etc/depmod.d/hid-apple.conf' and add
 the following line:
-```nginxconf
+```
 override hid_apple * extra
 ```
 Then run:
