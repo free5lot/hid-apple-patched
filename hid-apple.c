@@ -57,9 +57,9 @@ MODULE_PARM_DESC(swap_fn_leftctrl, "Swap the Fn and left Control keys. "
 		"(For people who want to keep PC keyboard muscle memory. "
 		"[0] = as-is, Mac layout, 1 = swapped, PC layout)");
 
-static unsigned int swap_fn_f13;
-module_param(swap_fn_f13, uint, 0644);
-MODULE_PARM_DESC(swap_fn_f13, "Swap the Fn and f13 keys, making fn insert and f13 fn. "
+static unsigned int swap_fn_f13_insert;
+module_param(swap_fn_f13_insert, uint, 0644);
+MODULE_PARM_DESC(swap_fn_f13_insert, "Swap the Fn and f13 keys, making fn insert and f13 fn. "
 		"(For people who need insert."
 		"[0] = as-is, Mac layout, 1 = swapped)");
 
@@ -227,7 +227,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 
 	u16 fn_keycode = (swap_fn_leftctrl) ? (KEY_LEFTCTRL) : (KEY_FN);
 
-	if (swap_fn_f13 && !swap_fn_leftctrl)
+	if (swap_fn_f13_insert && !swap_fn_leftctrl)
 		fn_keycode = KEY_F13;
 
 	if (usage->code == fn_keycode) {
@@ -236,7 +236,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		return 1;
 	}
 
-	if (usage->code == KEY_FN && swap_fn_f13 && !swap_fn_leftctrl) {
+	if (usage->code == KEY_FN && swap_fn_f13_insert && !swap_fn_leftctrl) {
 		input_event(input, usage->type, KEY_INSERT, value);
 		return 1;
 	}
@@ -338,7 +338,7 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
-	if (swap_fn_f13 && !swap_fn_leftctrl) {
+	if (swap_fn_f13_insert && !swap_fn_leftctrl) {
 			trans = apple_find_translation(swapped_fn_f13_keys, usage->code);
 			if (trans) {
 				input_event(input, usage->type, trans->to, value);
@@ -423,7 +423,7 @@ static void apple_setup_input(struct input_dev *input)
 			set_bit(trans->to, input->keybit);
 	}
 
-	if (swap_fn_f13 && !swap_fn_leftctrl) {
+	if (swap_fn_f13_insert && !swap_fn_leftctrl) {
 		for (trans = swapped_fn_f13_keys; trans->from; trans++)
 			set_bit(trans->to, input->keybit);
 	}
