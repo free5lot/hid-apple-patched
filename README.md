@@ -1,5 +1,7 @@
 ## A patched hid-apple kernel module
 ----------
+__UPDATE May 2020: Part of the patch (`swap_fn_leftctrl`) was submitted and probably accepted to the upstream kernel. Thanks to the maintainer Jiri Kosina.__
+
 __UPDATE Mar 2020: Now it works with Apple Magic Keyboard 2 in both USB and Bluetooth modes. Thanks to @almson!__
 
 __UPDATE Dec 2019: If one has issues building for Fedora, please take a look at [this information](https://github.com/free5lot/hid-apple-patched/issues/55)__
