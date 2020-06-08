@@ -150,6 +150,11 @@ sudo update-initramfs -u
 ```
 
 
+### Limitations
+
+Macbook keyboards have no issues nor limitations regarding this patched module. But some External Keyboards (like Magic Keyboard A1255, A1644 and etc.) have a limitation (probably physical) related to the registration of keys from 5-T-G-B column with Fn+Command and Fn+Control being pressed simultaniously. More information can be found in [issue #6](https://github.com/free5lot/hid-apple-patched/issues/6). There is a walkaround - to release the Fn key first in these combinations and it should work fine.
+
+
 ### Topicality
 
 A lot of GNU/Linux users of Macbook Pro and/or external (wireless) keyboards face the problem of uncomfortable placement of keys.
