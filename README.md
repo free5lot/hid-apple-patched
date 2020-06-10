@@ -1,5 +1,7 @@
 ## A patched hid-apple kernel module
 ----------
+__UPDATE Jun 2020: New feature added (`swap_fn_f13_insert`) to move fn key to F13 and make fn Insert. Thanks to @smaslennikov!__
+
 __UPDATE May 2020: Part of the patch (`swap_fn_leftctrl`) was submitted and probably accepted to the upstream kernel. Thanks to the maintainer Jiri Kosina.__
 
 __UPDATE Mar 2020: Now it works with Apple Magic Keyboard 2 in both USB and Bluetooth modes. Thanks to @almson!__
