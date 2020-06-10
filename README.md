@@ -75,14 +75,22 @@ See the [ArchWiki](https://wiki.archlinux.org/index.php/Apple_Keyboard#Use_a_pat
 Permanent configuration is done in file `/etc/modprobe.d/hid_apple.conf`. The format is one option-value pair per line, like `swap_fn_leftctrl=1`. After writing to the file, do `sudo update-initramfs -u` and reboot.
 Temporary configuration (applies immediately but is lost after rebooting) is possible by writing to virtual files in `/sys/module/hid_apple/parameters/`, like `echo 1 | sudo tee /sys/module/hid_apple/parameters/swap_fn_leftctrl`.
 
+Options already in mainstream kernels:
+
 - `fnmode` - Mode of top-row keys
   - `0` = disabled
   - `1` = normally media keys, switchable to function keys by holding Fn key (Default)
   - `2` = normally function keys, switchable to media keys by holding Fn key
-- `swap_fn_leftctrl` - Swap the Fn and left Control keys
+- `swap_opt_cmd` - Swap the Option (\"Alt\") and Command (\"Flag\") keys
   - `0` = as silkscreened, Mac layout (Default)
   - `1` = swapped, PC layout
-- `swap_opt_cmd` - Swap the Option (\"Alt\") and Command (\"Flag\") keys
+- `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts
+  - `0` = disabled, 
+  - `1` = enabled (Default)
+
+Apple wireless keyboard support (FN at bottom left):
+
+- `swap_fn_leftctrl` - Swap the Fn and left Control keys
   - `0` = as silkscreened, Mac layout (Default)
   - `1` = swapped, PC layout
 - `rightalt_as_rightctrl` - Use the right Alt key as a right Ctrl key
@@ -91,9 +99,15 @@ Temporary configuration (applies immediately but is lost after rebooting) is pos
 - `ejectcd_as_delete` - Use Eject-CD key as Delete key, if available
   - `0` = disabled (Default)
   - `1` = enabled
-- `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts
-  - `0` = disabled, 
-  - `1` = enabled (Default)
+
+Apple wired keyboard support (has numpad and F1 through F19):
+
+- `swap_f13_14_15_to_sysrq_scrlock_pause` - Swaps F13,F14,F15 with SYSRQ,SCROLLLOCK,PAUSE kays
+  - `0` = as silkscreened, Mac layout (Default)
+  - `1` = swapped, PC layout
+- `swap_fn_f19_and_insert_fn` - F19 becomes FN, and FN becomes INSERT key
+  - `0` = as silkscreened, Mac layout (Default)
+  - `1` = swapped, PC layout
 
 
 ### Warning regarding Secure Boot (on non-Apple computers)
