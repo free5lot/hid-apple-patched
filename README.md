@@ -64,6 +64,17 @@ in one go (since the first command will disable your Apple keyboard). Alternativ
 
 The advantage of DKMS is that the module is automatically re-built after every kernel upgrade and installation. This method has been tested at least on Ubuntu 14.04 and 16.04.
 
+### Note about installation on Mint and some others distros
+DKMS config of this repo has option `DEST_MODULE_LOCATION` set to `/extra`. That's the place compiled patched module will be placed.
+Distributions like Ubuntu, Fedora, Suse and some others ignore this parameter and use the proper distribution-specific directory instead. There will be no issues with these distributions.
+Other distributions like Mint can use `DEST_MODULE_LOCATION` and may require an extra configuration file to be created by the user to force the use of patched version of `hid-apple` from `/extra` instead of original one.
+In this case a new file `/etc/depmod.d/hid-apple.conf` should be created which tells depmod to prefer the module in `/extra` (see `man 5 depmod.d`):
+```
+override hid-apple * extra
+```
+The configuration file needs to be there before the module is installed using DKMS. 
+See additional information about it from @bambinodino (who pointed this out) in the issue #67.
+
 ### Installation on Arch Linux
 
 An AUR package [hid-apple-patched-git-dkms](https://aur.archlinux.org/packages/hid-apple-patched-git-dkms/) is available to automate the above installation steps.
