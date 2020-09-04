@@ -36,7 +36,7 @@ More information is available at [Ubuntu's help website](https://help.ubuntu.com
 
 ### Installation via [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) (recommended)
 
-You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
+You may need to install git and dkms first, e.g. on Ubuntu: `sudo apt install git dkms`
 
 Clone this repo and go into the source code directory:
 ```bash
