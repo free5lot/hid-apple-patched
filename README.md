@@ -36,9 +36,14 @@ More information is available at [Ubuntu's help website](https://help.ubuntu.com
 
 ### Installation via [DKMS](https://en.wikipedia.org/wiki/Dynamic_Kernel_Module_Support) (recommended)
 
-You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
+You may need to install git and dkms first, e.g. on Ubuntu: `sudo apt install git dkms`
 
-Go to the source code directory.
+Clone this repo and go into the source code directory:
+```bash
+git clone https://github.com/free5lot/hid-apple-patched
+cd hid-apple-patched.git
+```
+Install module:
 ```bash
 sudo dkms add .
 sudo dkms build hid-apple/1.0
