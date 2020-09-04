@@ -40,7 +40,7 @@ You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
 
 Clone this repo and go into the source code directory:
 ```bash
-git clone https://github.com/txssseal/hid-apple-patched.git
+git clone https://github.com/free5lot/hid-apple-patched
 cd hid-apple-patched.git
 ```
 Install module:
