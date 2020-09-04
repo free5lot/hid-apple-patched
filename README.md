@@ -38,7 +38,12 @@ More information is available at [Ubuntu's help website](https://help.ubuntu.com
 
 You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
 
-Clone this repo on your local and cd into the source code directory.
+Clone this repo and go into the source code directory:
+```bash
+git clone https://github.com/txssseal/hid-apple-patched.git
+cd hid-apple-patched.git
+```
+Install module:
 ```bash
 sudo dkms add .
 sudo dkms build hid-apple/1.0
