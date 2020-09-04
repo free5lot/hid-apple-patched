@@ -38,7 +38,7 @@ More information is available at [Ubuntu's help website](https://help.ubuntu.com
 
 You may need to get dkms first, e.g. on Ubuntu: `sudo apt install dkms`
 
-Go to the source code directory.
+Clone this repo on your local and cd into the source code directory.
 ```bash
 sudo dkms add .
 sudo dkms build hid-apple/1.0
