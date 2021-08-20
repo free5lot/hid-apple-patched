@@ -1,5 +1,7 @@
 ## A patched hid-apple kernel module
 ----------
+__UPDATE August 2020: `swap_fn_leftctrl` is now built-in in Linux 5.8 🎉__
+
 __UPDATE Jun 2020: New feature added (`swap_fn_f13_insert`) to move fn key to F13 and make fn Insert. Thanks to @smaslennikov!__
 
 __UPDATE May 2020: Part of the patch (`swap_fn_leftctrl`) was submitted and probably accepted to the upstream kernel. Thanks to the maintainer Jiri Kosina.__
@@ -99,14 +101,14 @@ These options are from the original mainstream `hid-apple` module:
 - `swap_opt_cmd` - Swap the Option (\"Alt\") and Command (\"Flag\") keys
   - `0` = as silkscreened, Mac layout (Default)
   - `1` = swapped, PC layout
+- `swap_fn_leftctrl` - Swap the Fn and left Control keys
+  - `0` = as silkscreened, Mac layout (Default)
+  - `1` = swapped, PC layout
 - `iso_layout` - Enable/Disable hardcoded ISO-layout of the keyboard. Possibly relevant for international keyboard layouts
   - `0` = disabled, 
   - `1` = enabled (Default)
 
 And these options were added in the patched version:
-- `swap_fn_leftctrl` - Swap the Fn and left Control keys
-  - `0` = as silkscreened, Mac layout (Default)
-  - `1` = swapped, PC layout
 - `rightalt_as_rightctrl` - Use the right Alt key as a right Ctrl key
   - `0` = as silkscreened, Mac layout (Default)
   - `1` = swapped, PC layout
@@ -177,7 +179,7 @@ sudo update-initramfs -u
 
 ### Limitations
 
-Macbook keyboards have no issues nor limitations regarding this patched module. But some External Keyboards (like Magic Keyboard A1255, A1644 and etc.) have a limitation (probably physical) related to the registration of keys from 5-T-G-B column with Fn+Command and Fn+Control being pressed simultaniously. More information can be found in [issue #6](https://github.com/free5lot/hid-apple-patched/issues/6). There is a walkaround - to release the Fn key first in these combinations and it should work fine.
+Macbook keyboards have no issues nor limitations regarding this patched module. But some External Keyboards (like Magic Keyboard A1255, A1644 and etc.) have a limitation (probably physical) related to the registration of keys from 5-T-G-B column with Fn+Command and Fn+Control being pressed simultaniously. More information can be found in [issue #6](https://github.com/free5lot/hid-apple-patched/issues/6). There is a workaround - to release the Fn key first in these combinations and it should work fine.
 
 
 ### Topicality
