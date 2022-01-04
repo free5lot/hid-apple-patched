@@ -43,7 +43,7 @@ You may need to install git and dkms first, e.g. on Ubuntu: `sudo apt install gi
 Clone this repo and go into the source code directory:
 ```bash
 git clone https://github.com/free5lot/hid-apple-patched
-cd hid-apple-patched.git
+cd hid-apple-patched
 ```
 Install module:
 ```bash
