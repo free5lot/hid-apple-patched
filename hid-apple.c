@@ -73,7 +73,7 @@ module_param(ejectcd_as_delete, uint, 0644);
 MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
 		"([0] = disabled, 1 = enabled)");
 
-static unsigned int capslock_as_leftctrl = 0;
+static unsigned int capslock_as_leftctrl;
 module_param(capslock_as_leftctrl, uint, 0644);
 MODULE_PARM_DESC(capslock_as_leftctrl, "CapsLock is an additional left Control key. "
 		"([0] = disabled, 1 = enabled)");
@@ -350,11 +350,11 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 	}
 
 	if (swap_fn_f13_insert && !swap_fn_leftctrl) {
-			trans = apple_find_translation(swapped_fn_f13_keys, usage->code);
-			if (trans) {
-				input_event(input, usage->type, trans->to, value);
-				return 1;
-			}
+		trans = apple_find_translation(swapped_fn_f13_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
 	}
 
 	if (ejectcd_as_delete) {
