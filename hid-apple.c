@@ -73,6 +73,11 @@ module_param(ejectcd_as_delete, uint, 0644);
 MODULE_PARM_DESC(ejectcd_as_delete, "Use Eject-CD key as Delete key. "
 		"([0] = disabled, 1 = enabled)");
 
+static unsigned int lock_as_delete;
+module_param(lock_as_delete, uint, 0644);
+MODULE_PARM_DESC(lock_as_delete, "Use Lock key as Delete key. "
+		"([0] = disabled, 1 = enabled)");
+
 static unsigned int capslock_as_leftctrl;
 module_param(capslock_as_leftctrl, uint, 0644);
 MODULE_PARM_DESC(capslock_as_leftctrl, "CapsLock is an additional left Control key. "
@@ -207,6 +212,11 @@ static const struct apple_key_translation rightalt_as_rightctrl_keys[] = {
 
 static const struct apple_key_translation ejectcd_as_delete_keys[] = {
 	{ KEY_EJECTCD,	KEY_DELETE },
+	{ }
+};
+
+static const struct apple_key_translation lock_as_delete_keys[] = {
+	{ KEY_COFFEE,	KEY_DELETE },
 	{ }
 };
 
@@ -365,6 +375,14 @@ static int hidinput_apple_event(struct hid_device *hid, struct input_dev *input,
 		}
 	}
 
+	if (lock_as_delete) {
+		trans = apple_find_translation(lock_as_delete_keys, usage->code);
+		if (trans) {
+			input_event(input, usage->type, trans->to, value);
+			return 1;
+		}
+	}
+
 	if (capslock_as_leftctrl) {
 		trans = apple_find_translation(capslock_as_leftctrl_keys, usage->code);
 		if (trans) {
@@ -449,6 +467,11 @@ static void apple_setup_input(struct input_dev *input)
 
 	if (ejectcd_as_delete) {
 		for (trans = ejectcd_as_delete_keys; trans->from; trans++)
+			set_bit(trans->to, input->keybit);
+	}
+
+	if (lock_as_delete) {
+		for (trans = lock_as_delete_keys; trans->from; trans++)
 			set_bit(trans->to, input->keybit);
 	}
 
