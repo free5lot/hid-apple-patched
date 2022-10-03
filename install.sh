@@ -17,6 +17,7 @@ PLACE_FOR_MODULE="/lib/modules/$(uname -r)/kernel/drivers/hid"
 SWAP_FN_F13_INSERT=0
 SWAP_FN_LEFTCTRL=0
 EJECTCD_AS_DELETE=0
+LOCK_AS_DELETE=0
 
 # Pre-checks -------------------------------------------
 # Check if place for module exists in system
@@ -75,6 +76,15 @@ read -e -p "3. Do you want to use Eject-CD key as Delete? [y/N]: " -i "N" yn
         [Nn]* ) EJECTCD_AS_DELETE=0; echo "No, don't";;
         * )   EJECTCD_AS_DELETE=0; echo "No (default)";;
     esac
+echo ""
+
+echo "NOTE: If you don't have Lock key, select No (default)"
+read -e -p "3. Do you want to use Lock key as Delete? [y/N]: " -i "N" yn
+    case $yn in
+        [Yy]* ) LOCK_AS_DELETE=1; echo "Yes, use it";;
+        [Nn]* ) LOCK_AS_DELETE=0; echo "No, don't";;
+        * )   LOCK_AS_DELETE=0; echo "No (default)";;
+    esac
 
 echo ""
 echo "============================================="
@@ -100,7 +110,7 @@ if [ -f "$MODULE_OPTIONS_PATH/swap_opt_cmd" ]; then
 fi
 
 sudo rmmod "$MODULE_LSMOD_NAME"
-sudo insmod "./$MODULE_FILENAME" $SAVED_OPTIONS swap_fn_leftctrl="$SWAP_FN_LEFTCTRL" ejectcd_as_delete="$EJECTCD_AS_DELETE" swap_fn_f13_insert="$SWAP_FN_F13_INSERT"
+sudo insmod "./$MODULE_FILENAME" $SAVED_OPTIONS swap_fn_leftctrl="$SWAP_FN_LEFTCTRL" ejectcd_as_delete="$EJECTCD_AS_DELETE" lock_as_delete="$LOCK_AS_DELETE" swap_fn_f13_insert="$SWAP_FN_F13_INSERT"
 
 echo "The patched module was loaded."
 echo "Please test the keyboard (mainly the modified keys)."
@@ -157,6 +167,15 @@ if [ $SEARCH_RESULT_EJECTCD -gt "0" ]; then
 else
 	echo "" | sudo tee -a "$MODPROBE_CONFIG_PATH"
 	echo "options hid_apple ejectcd_as_delete=$EJECTCD_AS_DELETE" | sudo tee -a "$MODPROBE_CONFIG_PATH"
+fi
+
+SEARCH_RESULT_LOCK=`cat "$MODPROBE_CONFIG_PATH" | grep "lock_as_delete" | wc -l`
+if [ $SEARCH_RESULT_LOCK -gt "0" ]; then
+	echo "Warning: Option 'lock_as_delete' is already set in $MODPROBE_CONFIG_PATH"
+	echo "You should change this option manually in this file"
+else
+	echo "" | sudo tee -a "$MODPROBE_CONFIG_PATH"
+	echo "options hid_apple lock_as_delete=$LOCK_AS_DELETE" | sudo tee -a "$MODPROBE_CONFIG_PATH"
 fi
 
 

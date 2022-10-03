@@ -115,6 +115,9 @@ And these options were added in the patched version:
 - `ejectcd_as_delete` - Use Eject-CD key as Delete key, if available
   - `0` = disabled (Default)
   - `1` = enabled
+- `lock_as_delete` - Use Lock key as Delete key, if available
+  - `0` = disabled (Default)
+  - `1` = enabled
 - `swap_fn_f13_insert` - Swap the Fn and f13 keys, making Fn Insert and f13 Fn. For people who need Insert
   - `0` = disabled (Default), 
   - `1` = enabled
