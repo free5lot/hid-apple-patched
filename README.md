@@ -84,7 +84,7 @@ See additional information about it from @bambinodino (who pointed this out) in 
 
 ### Installation on Arch Linux
 
-An AUR package [hid-apple-patched-git-dkms](https://aur.archlinux.org/packages/hid-apple-patched-git-dkms/) is available to automate the above installation steps.
+An AUR package [hid-apple-patched-dkms-git](https://aur.archlinux.org/packages/hid-apple-patched-dkms-git/) is available to automate the above installation steps.
 
 See the [ArchWiki](https://wiki.archlinux.org/index.php/Apple_Keyboard#Use_a_patch_to_hid-apple) for install and configuration instructions specific to Arch Linux.
 
