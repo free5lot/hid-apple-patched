@@ -422,7 +422,7 @@ static int apple_event(struct hid_device *hdev, struct hid_field *field,
 /*
  * MacBook JIS keyboard has wrong logical maximum
  */
-static __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+static const __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
 		unsigned int *rsize)
 {
 	struct apple_sc *asc = hid_get_drvdata(hdev);
