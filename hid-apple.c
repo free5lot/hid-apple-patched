@@ -14,6 +14,7 @@
 
 #define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
 
+#include <linux/version.h>
 #include <linux/device.h>
 #include <linux/hid.h>
 #include <linux/module.h>
@@ -422,8 +423,13 @@ static int apple_event(struct hid_device *hdev, struct hid_field *field,
 /*
  * MacBook JIS keyboard has wrong logical maximum
  */
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6, 12, 0)
 static __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
 		unsigned int *rsize)
+#else
+static const __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+		unsigned int *rsize)
+#endif
 {
 	struct apple_sc *asc = hid_get_drvdata(hdev);
 
