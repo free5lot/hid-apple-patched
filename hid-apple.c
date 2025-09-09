@@ -16,6 +16,13 @@
 
 #include <linux/device.h>
 #include <linux/hid.h>
+#include <linux/version.h>
+
+#if LINUX_VERSION_CODE < KERNEL_VERSION(6,12,0)
+#define FIXUP_CONST /* empty */
+#else
+#define FIXUP_CONST const
+#endif
 #include <linux/module.h>
 #include <linux/slab.h>
 
@@ -422,7 +429,7 @@ static int apple_event(struct hid_device *hdev, struct hid_field *field,
 /*
  * MacBook JIS keyboard has wrong logical maximum
  */
-static __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
+static FIXUP_CONST __u8 *apple_report_fixup(struct hid_device *hdev, __u8 *rdesc,
 		unsigned int *rsize)
 {
 	struct apple_sc *asc = hid_get_drvdata(hdev);
